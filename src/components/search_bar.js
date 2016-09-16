@@ -1,4 +1,6 @@
 import React ,{Component}from 'react'
+import { Debounce } from 'react-throttle';
+import DebounceInput from 'react-debounce-input';
 //searches the result from youtube through Api
 class SearchBar extends Component{
   constructor(props){
@@ -8,12 +10,18 @@ class SearchBar extends Component{
   }
   render(){
     return(
-      <div>
-        <input
+      <div className="search-bar">
+        <DebounceInput
+          debounceTimeout={300}
+          className="form-control"
           value = {this.state.term}
-          onChange={event => this.setState({ term : event.target.value })}/>
+          onChange={event => this.onInputChange(event.target.value)}/>
       </div>
     );
+  }
+  onInputChange(term){
+    this.setState({term});
+    this.props.onSearchTermChange(term);
   }
 
 }
